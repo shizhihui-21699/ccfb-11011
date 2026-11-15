@@ -1,0 +1,24 @@
+{
+  "apps": {
+    "finance": {
+      "upstream": "http://127.0.0.1:9001",
+      "allowUsers": ["alice"],
+      "require": {
+        "minOsVersion": "15.0",
+        "diskEncrypted": true,
+        "edrOnline": true,
+        "maxPostureAgeSec": 120
+      }
+    },
+    "wiki": {
+      "upstream": "http://127.0.0.1:9002",
+      "allowUsers": ["alice", "bob", "carol"],
+      "require": {
+        "minOsVersion": "14.0",
+        "diskEncrypted": true,
+        "edrOnline": false,
+        "maxPostureAgeSec": 300
+      }
+    }
+  }
+}
