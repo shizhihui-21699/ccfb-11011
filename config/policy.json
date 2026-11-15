@@ -1,0 +1,62 @@
+{
+  "version": 1,
+  "settings": {
+    "sessionTtlMinutes": 480,
+    "idleTimeoutMinutes": 30,
+    "postureRecheckSeconds": 5,
+    "postureCacheSeconds": 2,
+    "revocationSlaSeconds": 60,
+    "requireDeviceAssignedToUser": true,
+    "loginRateLimit": {
+      "maxFailures": 5,
+      "windowSeconds": 300,
+      "lockoutSeconds": 300
+    }
+  },
+  "postureBaseline": {
+    "minOsVersion": {
+      "darwin": "14.0",
+      "win32": "10.0.19045",
+      "linux": "12.0"
+    },
+    "requireDiskEncryption": true,
+    "requireEdrInstalled": true,
+    "requireEdrRunning": true,
+    "maxEdrHeartbeatAgeSeconds": 15,
+    "maxReportAgeSeconds": 60
+  },
+  "apps": [
+    {
+      "id": "wiki",
+      "description": "Internal handbook and documentation",
+      "upstream": "http://127.0.0.1:8460",
+      "hosts": ["wiki.zta.local", "localhost"],
+      "paths": ["/wiki"],
+      "allow": { "groups": ["engineering", "ops", "finance"] },
+      "injectHeaders": { "X-Auth-Realm": "employees" }
+    },
+    {
+      "id": "finance-dashboard",
+      "description": "Finance reporting — stricter device posture",
+      "upstream": "http://127.0.0.1:8461",
+      "hosts": ["finance.zta.local", "localhost"],
+      "paths": ["/finance"],
+      "allow": { "groups": ["finance", "ops"] },
+      "require": {
+        "posture": {
+          "maxEdrHeartbeatAgeSeconds": 10,
+          "minScore": 95
+        }
+      },
+      "maxSessionMinutes": 60
+    },
+    {
+      "id": "ops-console",
+      "description": "Operations console — contractors excluded",
+      "upstream": "http://127.0.0.1:8462",
+      "hosts": ["ops.zta.local", "localhost"],
+      "paths": ["/ops"],
+      "allow": { "groups": ["ops", "engineering"] }
+    }
+  ]
+}
