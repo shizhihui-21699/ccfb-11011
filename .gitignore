@@ -16,3 +16,9 @@ node_modules/
 __pycache__/
 .venv/
 venv/
+
+# generated runtime material
+pki/
+.zt/
+.zt-test/
+*.p12

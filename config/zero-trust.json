@@ -1,0 +1,77 @@
+{
+  "$schema": "./schema.json",
+  "host": "127.0.0.1",
+  "port": 8443,
+  "publicOrigin": "https://127.0.0.1:8443",
+  "sessionTtlSeconds": 28800,
+  "grantTtlSeconds": 43200,
+  "thresholds": {
+    "postureMaxAgeSeconds": 180,
+    "minOsVersion": {
+      "macos": "14.0.0",
+      "windows": "10.0.19045",
+      "linux": "5.15.0"
+    },
+    "revalidateIntervalMs": 10000,
+    "revokeWithinMs": 60000
+  },
+  "postureService": {
+    "host": "127.0.0.1",
+    "port": 9200
+  },
+  "apps": [
+    {
+      "id": "wiki",
+      "name": "Internal Wiki",
+      "description": "Company handbook and runbooks.",
+      "upstream": "http://127.0.0.1:9101",
+      "pathHint": "/app/wiki"
+    },
+    {
+      "id": "payroll",
+      "name": "Payroll Admin",
+      "description": "Finance and compensation records.",
+      "upstream": "http://127.0.0.1:9102",
+      "pathHint": "/app/payroll"
+    },
+    {
+      "id": "ops-console",
+      "name": "Operations Console",
+      "description": "Production deployment controls.",
+      "upstream": "http://127.0.0.1:9103",
+      "pathHint": "/app/ops-console"
+    }
+  ],
+  "seedUsers": [
+    {
+      "id": "usr_alice",
+      "username": "alice",
+      "displayName": "Alice Chen",
+      "password": "alice-demo-password",
+      "roles": [
+        "admin"
+      ],
+      "group": "engineering"
+    },
+    {
+      "id": "usr_bob",
+      "username": "bob",
+      "displayName": "Bob Ortiz",
+      "password": "bob-demo-password",
+      "roles": [
+        "employee"
+      ],
+      "group": "finance"
+    },
+    {
+      "id": "usr_carol",
+      "username": "carol",
+      "displayName": "Carol Nakamura",
+      "password": "carol-demo-password",
+      "roles": [
+        "employee"
+      ],
+      "group": "engineering"
+    }
+  ]
+}

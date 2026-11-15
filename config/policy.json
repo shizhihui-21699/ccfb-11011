@@ -1,0 +1,86 @@
+{
+  "$schema": "./policy.schema.json",
+  "version": 1,
+  "defaultDenyReason": "No policy rule grants this application to your identity or device.",
+  "rules": [
+    {
+      "id": "block-ops-for-finance",
+      "effect": "deny",
+      "description": "Finance cannot reach production controls from shared kiosks.",
+      "apps": [
+        "ops-console"
+      ],
+      "groups": [
+        "finance"
+      ],
+      "deviceGroups": [
+        "kiosk"
+      ]
+    },
+    {
+      "id": "ops-console-hardened",
+      "effect": "allow",
+      "description": "Production controls require encryption, EDR, firewall and recent posture.",
+      "apps": [
+        "ops-console"
+      ],
+      "groups": [
+        "engineering"
+      ],
+      "requireDiskEncrypted": true,
+      "requireEdrOnline": true,
+      "requireFirewall": true,
+      "minOsVersion": {
+        "macos": "14.2.0",
+        "windows": "10.0.22621",
+        "linux": "6.1.0"
+      },
+      "maxPostureAgeSeconds": 180
+    },
+    {
+      "id": "payroll-finance",
+      "effect": "allow",
+      "description": "Payroll is limited to finance and requires an encrypted disk.",
+      "apps": [
+        "payroll"
+      ],
+      "groups": [
+        "finance"
+      ],
+      "requireDiskEncrypted": true,
+      "requireEdrOnline": true,
+      "maxPostureAgeSeconds": 180
+    },
+    {
+      "id": "payroll-admins",
+      "effect": "allow",
+      "description": "Administrators can reach payroll from any healthy device.",
+      "apps": [
+        "payroll"
+      ],
+      "roles": [
+        "admin"
+      ],
+      "requireDiskEncrypted": true,
+      "maxPostureAgeSeconds": 300
+    },
+    {
+      "id": "wiki-all-employees",
+      "effect": "allow",
+      "description": "The wiki is available to everyone on a managed device with recent posture.",
+      "apps": [
+        "wiki"
+      ],
+      "roles": [
+        "employee",
+        "admin"
+      ],
+      "minOsVersion": {
+        "macos": "13.0.0",
+        "windows": "10.0.19044",
+        "linux": "5.15.0"
+      },
+      "maxPostureAgeSeconds": 600
+    }
+  ]
+}

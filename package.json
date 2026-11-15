@@ -1,0 +1,27 @@
+{
+  "name": "zero-trust-access-proxy",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A dependency-free TypeScript zero-trust access proxy with mTLS device identity, posture checks, continuous authorization, audit log and admin console.",
+  "type": "module",
+  "engines": {
+    "node": ">=24.0.0"
+  },
+  "scripts": {
+    "start": "node src/main.ts",
+    "dev": "node --watch src/main.ts",
+    "pki:init": "node scripts/pki.ts init",
+    "pki:show": "node scripts/pki.ts show",
+    "demo": "node scripts/demo.ts",
+    "test": "node --test --test-reporter=spec tests/*.test.ts",
+    "test:unit": "node --test --test-reporter=spec tests/policy.test.ts tests/version.test.ts tests/audit.test.ts tests/certs.test.ts tests/crypto.test.ts tests/access.test.ts tests/revalidation.test.ts",
+    "typecheck": "tsc -p tsconfig.json",
+    "config:schema": "node scripts/config-schema.ts",
+    "mock-apps": "node scripts/mock-apps.ts",
+    "admin": "node scripts/admin.ts"
+  },
+  "devDependencies": {
+    "@types/node": "26.6.6",
+    "typescript": "5.9.3"
+  }
+}
